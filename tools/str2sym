@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+
+
+MAX_LEN = 11
+
+
+def main (name):
+
+    name_len = len (name)
+
+    if name_len > MAX_LEN:
+        print 'too long symbol name'
+        sys.exit (1)
+
+    sym = 0
+    i = 0
+
+    for ch in name:
+
+        c = ord (ch)
+        shift = 55 - i*5
+
+        if ord ('a') <= c  and  c <= ord ('z'):
+            sym |= (c - ord ('a'))  <<  shift
+        elif c == ord ('_'):
+            sym |= 26 << shift
+        else :
+            print 'invalid char', ch
+            sys.exit (1)
+
+        i += 1
+
+    sym |= (name_len << 60)
+    sym |= 2
+
+    print hex (sym)
+
+
+if __name__ == '__main__':
+    if len (sys.argv) != 2:
+        print "Usage: str2sym  name"
+        sys.exit (1)
+
+    main (sys.argv[1])
+
